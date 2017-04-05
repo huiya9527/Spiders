@@ -35,5 +35,5 @@ class AppSpider(CrawlSpider):
     def get_developer(self, response):
         like_num = response.xpath("//div[@class='det-othinfo-data']/text()").extract()
         if len(like_num) >= 2:
-            return like_num[1].encode('utf-8')
+            return like_num[1]
         return ''

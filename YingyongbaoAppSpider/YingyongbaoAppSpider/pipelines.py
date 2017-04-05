@@ -47,6 +47,6 @@ class YingyongbaoappspiderPipeline(object):
         self.cursor = self.db.cursor()
 
     def process_item(self, item, spider):
-        sql = "insert into yingyongbao20170328(name, package, category, description, download_num, developer, url, pic_url)" \
+        sql = "insert into yingyongbao20170331(name, package, category, description, download_num, developer, url, pic_url)" \
               " values(%s)" % YingyongbaoappspiderPipeline.set_insert_table_value(item)
         self.cursor.execute(sql)
