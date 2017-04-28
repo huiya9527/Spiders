@@ -1,9 +1,9 @@
 # coding:utf-8
+
 import MySQLdb
 
 
-class WandoujiaappspiderPipeline(object):
-
+class ZhushouappspiderPipeline(object):
     @staticmethod
     def handle_special_char(content):
         '''
@@ -15,6 +15,7 @@ class WandoujiaappspiderPipeline(object):
         content = ''.join(content.split('\''))
         content = ''.join(content.split('\"'))
         content = ''.join(content.split('\\'))
+        content = content.strip()
         return content
 
     @staticmethod
@@ -27,19 +28,14 @@ class WandoujiaappspiderPipeline(object):
         item_list = list()
         item_list.append(item['name'])
         item_list.append(item['package'])
-        item_list.append(item['category'])
         item_list.append(item['description'])
         item_list.append(item['comments'])
-        item_list.append(item['like_num'])
-        item_list.append(item['install_num'])
-        item_list.append(item['classification'])
-        item_list.append(item['update_time'])
         item_list.append(item['tags'])
+        item_list.append(item['download_num'])
         item_list.append(item['url'])
-        item_list.append(item['source'])
         value = ''
         for i in item_list:
-            value += ('\'' + WandoujiaappspiderPipeline.handle_special_char(i) + '\'' + ',')
+            value += ('\'' + ZhushouappspiderPipeline.handle_special_char(i) + '\'' + ',')
         return value.strip(',')
 
     def close_spider(self, spider):
@@ -52,7 +48,6 @@ class WandoujiaappspiderPipeline(object):
         self.cursor = self.db.cursor()
 
     def process_item(self, item, spider):
-        sql = "insert into wandoujia20170405 (name, package, category, description,\
-                comments, like_num, install_num ,classification, update_time, tags ,url, source) values(%s)" \
-              % WandoujiaappspiderPipeline.set_insert_table_value(item)
+        sql = "insert into zhushou20170405 (name, package, description,comments, tags, download_num, url) values(%s)" \
+              % ZhushouappspiderPipeline.set_insert_table_value(item)
         self.cursor.execute(sql)
